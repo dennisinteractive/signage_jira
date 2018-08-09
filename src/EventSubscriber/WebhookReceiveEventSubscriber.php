@@ -60,11 +60,11 @@ class WebhookReceiveEventSubscriber implements EventSubscriberInterface {
     // Identify if this is a jira webook.
     //@todo patch WebhookService to pass the value of receive($name)
     // so we know that it is our webhook.
-    if (isset($payload['build']['full_url'])) {
-      if (strpos($payload['build']['full_url'], 'jira') === FALSE) {
-        // Not a jira webhook.
-        return;
-      }
+
+    $uri = \Drupal::request()->getRequestUri();
+    if (strpos($uri, '/webhook/jira') === FALSE) {
+      // Not a jira webhook.
+      return;
     }
 
     // Just log events for now.
